@@ -21,20 +21,22 @@ class DBManager:
             await db.commit()
 
     @staticmethod
-    async def get_guild_leaderboard_channel(guild_id: int) -> Optional[int]:
+    async def get_guild_leaderboard(guild_id: int) -> Optional[tuple[int, int]]:
         async with aiosqlite.connect(DB_PATH) as db:
-            async with db.execute('SELECT leaderboard_channel_id FROM guild_settings WHERE guild_id = ?', (guild_id,)) as cursor:
+            async with db.execute('SELECT leaderboard_channel_id, leaderboard_message_id FROM guild_settings WHERE guild_id = ?', (guild_id,)) as cursor:
                 row = await cursor.fetchone()
-                return row[0] if row else None
+                return row if row else None
 
     @staticmethod
-    async def set_guild_leaderboard_channel(guild_id: int, channel_id: int) -> None:
+    async def set_guild_leaderboard(guild_id: int, channel_id: int, message_id: int) -> None:
         async with aiosqlite.connect(DB_PATH) as db:
             await db.execute('''
-                INSERT INTO guild_settings (guild_id, leaderboard_channel_id)
-                VALUES (?, ?)
-                ON CONFLICT(guild_id) DO UPDATE SET leaderboard_channel_id = excluded.leaderboard_channel_id
-            ''', (guild_id, channel_id))
+                INSERT INTO guild_settings (guild_id, leaderboard_channel_id, leaderboard_message_id)
+                VALUES (?, ?, ?)
+                ON CONFLICT(guild_id) DO UPDATE SET 
+                    leaderboard_channel_id = excluded.leaderboard_channel_id,
+                    leaderboard_message_id = excluded.leaderboard_message_id
+            ''', (guild_id, channel_id, message_id))
             await db.commit()
 
     @staticmethod

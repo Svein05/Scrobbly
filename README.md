@@ -1,7 +1,5 @@
 <h1 align="center">
   <br>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Lastfm_logo.svg/2560px-Lastfm_logo.svg.png" alt="Last.fm Discord Bot" width="300">
-  <br>
   Last.fm Discord Bot
   <br>
 </h1>
@@ -16,10 +14,10 @@
     <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python">
   </a>
   <a href="https://github.com/tu-usuario/lastfm-discord-bot/stargazers">
-    <img src="https://img.shields.io/github/stars/tu-usuario/lastfm-discord-bot.svg?style=flat&color=red" alt="Stars">
+    <img src="https://img.shields.io/github/stars/Svein05/Scrobbly.svg?style=flat&color=red" alt="Stars">
   </a>
   <a href="https://github.com/tu-usuario/lastfm-discord-bot/network/members">
-    <img src="https://img.shields.io/github/forks/tu-usuario/lastfm-discord-bot.svg?style=flat&color=red" alt="Forks">
+    <img src="https://img.shields.io/github/forks/Svein05/Scrobbly.svg?style=flat&color=red" alt="Forks">
   </a>
 </p>
 

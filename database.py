@@ -19,7 +19,15 @@ async def init_db():
         await db.execute('''
             CREATE TABLE IF NOT EXISTS guild_settings (
                 guild_id INTEGER PRIMARY KEY,
-                leaderboard_channel_id INTEGER
+                leaderboard_channel_id INTEGER,
+                leaderboard_message_id INTEGER
             )
         ''')
+        
+        # Migración: Intentar añadir la columna si la tabla ya existía de antes
+        try:
+            await db.execute('ALTER TABLE guild_settings ADD COLUMN leaderboard_message_id INTEGER')
+        except aiosqlite.OperationalError:
+            pass # La columna ya existe
+            
         await db.commit()

@@ -16,21 +16,31 @@ class Leaderboard(commands.Cog):
         self.leaderboard_task.cancel()
 
     @app_commands.command(name="linkcanal", description="Configura el canal para enviar Leaderboards automáticos.")
-    @app_commands.describe(canal="Canal de texto")
+    @app_commands.describe(canal="Canal de texto o anuncios")
     @app_commands.default_permissions(manage_guild=True)
-    async def link_canal(self, interaction: discord.Interaction, canal: discord.TextChannel):
-        await DBManager.set_guild_leaderboard_channel(interaction.guild_id, canal.id)
-        await interaction.response.send_message(f"✅ El canal {canal.mention} ha sido configurado para los Leaderboards.", ephemeral=True)
-
-    @app_commands.command(name="leaderboard", description="Muestra el Top 10 de Scrobbles del servidor.")
-    async def show_leaderboard(self, interaction: discord.Interaction):
-        await interaction.response.defer()
+    async def link_canal(self, interaction: discord.Interaction, canal: discord.abc.GuildChannel):
+        if not hasattr(canal, 'send'):
+            await interaction.response.send_message("❌ Debes seleccionar un canal de texto válido donde el bot pueda enviar mensajes.", ephemeral=True)
+            return
+            
+        await interaction.response.defer(ephemeral=True)
         
         embed = await self.generate_leaderboard_embed(interaction.guild)
-        if embed:
-            await interaction.followup.send(embed=embed)
-        else:
-            await interaction.followup.send("❌ No hay suficientes usuarios vinculados o hubo un error al generar el Leaderboard.")
+        if not embed:
+            embed = discord.Embed(
+                title=f"🏆 Top 10 Scrobbles Totales - {interaction.guild.name}",
+                description="No hay suficientes usuarios vinculados aún. Usa `/link` para participar.",
+                color=discord.Color.red()
+            )
+            
+        try:
+            msg = await canal.send(embed=embed)
+            await DBManager.set_guild_leaderboard(interaction.guild_id, canal.id, msg.id)
+            await interaction.followup.send(f"✅ El canal {canal.mention} ha sido configurado. El Leaderboard se actualizará automáticamente allí.")
+        except discord.Forbidden:
+            await interaction.followup.send("❌ No tengo permisos para enviar mensajes en ese canal.")
+        except Exception as e:
+            await interaction.followup.send(f"❌ Ocurrió un error al enviar el mensaje: {e}")
 
     async def generate_leaderboard_embed(self, guild: discord.Guild) -> discord.Embed:
         db_users = await DBManager.get_all_users()
@@ -78,20 +88,41 @@ class Leaderboard(commands.Cog):
         embed.description = description
         return embed
 
-    # Tarea programada que se ejecuta cada 7 días (por ejemplo)
-    @tasks.loop(hours=168)
+    # Tarea programada que se ejecuta cada 12 horas para mantenerlo actualizado
+    @tasks.loop(hours=12)
     async def leaderboard_task(self):
         # Esperar a que el bot esté listo
         await self.bot.wait_until_ready()
         
         for guild in self.bot.guilds:
-            channel_id = await DBManager.get_guild_leaderboard_channel(guild.id)
-            if channel_id:
+            lb_data = await DBManager.get_guild_leaderboard(guild.id)
+            if lb_data:
+                channel_id, message_id = lb_data
                 channel = guild.get_channel(channel_id)
-                if channel:
+                if channel and hasattr(channel, 'fetch_message'):
                     embed = await self.generate_leaderboard_embed(guild)
-                    if embed:
-                        await channel.send(embed=embed)
+                    if not embed:
+                        embed = discord.Embed(
+                            title=f"🏆 Top 10 Scrobbles Totales - {guild.name}",
+                            description="No hay suficientes usuarios vinculados aún. Usa `/link` para participar.",
+                            color=discord.Color.red()
+                        )
+                    try:
+                        if message_id:
+                            try:
+                                msg = await channel.fetch_message(message_id)
+                                await msg.edit(embed=embed)
+                            except discord.NotFound:
+                                # Si el mensaje fue borrado, enviamos uno nuevo
+                                new_msg = await channel.send(embed=embed)
+                                await DBManager.set_guild_leaderboard(guild.id, channel.id, new_msg.id)
+                        else:
+                            new_msg = await channel.send(embed=embed)
+                            await DBManager.set_guild_leaderboard(guild.id, channel.id, new_msg.id)
+                    except discord.Forbidden:
+                        pass # No hay permisos
+                    except Exception as e:
+                        print(f"Error actualizando leaderboard en {guild.name}: {e}")
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Leaderboard(bot))
