@@ -1,0 +1,43 @@
+name: Deploy Website to GitHub Pages
+
+on:
+  # Ejecuta el workflow al hacer push a la rama main
+  push:
+    branches: ["main"]
+  # Permite ejecutarlo manualmente desde la pestaña Actions
+  workflow_dispatch:
+
+# Otorga permisos al GITHUB_TOKEN
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Permite solo un despliegue concurrente
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Trabajo de Despliegue
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Subir artefactos
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Sube solo el contenido de la carpeta website
+          path: './website'
+
+      - name: Desplegar a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
