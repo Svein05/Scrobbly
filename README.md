@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  Last.fm Discord Bot
+  Scrobbly
   <br>
 </h1>
 
@@ -13,10 +13,10 @@
   <a href="https://www.python.org/">
     <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python">
   </a>
-  <a href="https://github.com/tu-usuario/lastfm-discord-bot/stargazers">
+  <a href="https://github.com/Svein05/Scrobbly/stargazers">
     <img src="https://img.shields.io/github/stars/Svein05/Scrobbly.svg?style=flat&color=red" alt="Stars">
   </a>
-  <a href="https://github.com/tu-usuario/lastfm-discord-bot/network/members">
+  <a href="https://github.com/Svein05/Scrobbly/network/members">
     <img src="https://img.shields.io/github/forks/Svein05/Scrobbly.svg?style=flat&color=red" alt="Forks">
   </a>
 </p>
@@ -46,8 +46,8 @@ Para ejecutar este bot localmente o en tu propio servidor, sigue estos pasos:
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/lastfm-discord-bot.git
-cd lastfm-discord-bot
+git clone https://github.com/Svein05/Scrobbly.git
+cd Scrobbly
 ```
 
 ### 2. Entorno Virtual (Recomendado)
@@ -91,18 +91,20 @@ Una vez que el bot esté en tu servidor, puedes usar los siguientes comandos de 
 
 - `/help` - Muestra la lista de comandos disponibles e información general.
 - `/link <username>` - Vincula tu cuenta de Discord con tu usuario de Last.fm.
+- `/unlink` - Desvincula tu cuenta de Last.fm del bot y borra tus datos.
 - `/np [user]` - Muestra la canción que estás escuchando actualmente (o la última que escuchaste). Puedes mencionar a otro usuario para ver su estado.
-- `/linkcanal <channel>` - *(Solo administradores)* Configura el canal donde se publicarán los Leaderboards semanales/mensuales.
+- `/linkcanal <channel>` - *(Solo administradores)* Configura el canal donde se publicarán los Leaderboards automáticos.
+- `/sync` - *(Solo administradores)* Sincroniza y actualiza manualmente el Leaderboard del servidor al instante.
 
 ## Sitio Web
 
 Este proyecto incluye una página web moderna para promocionar el bot, generada automáticamente vía **GitHub Pages**. 
-Puedes visitar la [página de demostración aquí](https://tu-usuario.github.io/lastfm-discord-bot/).
+Puedes visitar la [página de demostración aquí](https://Svein05.github.io/Scrobbly/).
 
 ## Contacto
 
 - Únete a nuestro [Servidor de Soporte en Discord](#)
-- Repórtanos cualquier problema abriendo un [Issue](https://github.com/tu-usuario/lastfm-discord-bot/issues).
+- Repórtanos cualquier problema abriendo un [Issue](https://github.com/Svein05/Scrobbly/issues).
 
 ---
 <p align="center">Hecho con ❤️ para la comunidad de Discord y Last.fm</p>

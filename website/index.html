@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Last.fm Bot para Discord</title>
+    <title>Scrobbly - El Bot de Last.fm para Discord</title>
     <meta name="description" content="El mejor bot de Discord para integrar tu actividad musical de Last.fm. Comparte tus scrobbles, descubre nueva música y compite en leaderboards.">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
         <div class="container nav-container">
             <div class="logo">
                 <span class="logo-icon">🎵</span>
-                <span class="logo-text">Last.fm Bot</span>
+                <span class="logo-text">Scrobbly</span>
             </div>
             <ul class="nav-links">
                 <li><a href="#features">Características</a></li>
@@ -54,7 +54,7 @@
                         <div class="message bot">
                             <img src="https://ui-avatars.com/api/?name=Bot&background=d51007&color=fff" alt="Bot Avatar" class="avatar bot-avatar">
                             <div class="message-content">
-                                <span class="username bot-name">Last.fm Bot <span class="bot-tag">BOT</span></span> <span class="timestamp">Hoy a las 14:30</span>
+                                <span class="username bot-name">Scrobbly <span class="bot-tag">BOT</span></span> <span class="timestamp">Hoy a las 14:30</span>
                                 <div class="embed">
                                     <div class="embed-author">
                                         <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User">
@@ -107,16 +107,20 @@
                     <div class="command-desc">Vincula tu cuenta de Discord con Last.fm para empezar a usar el bot.</div>
                 </div>
                 <div class="command-item">
+                    <div class="command-name">/unlink</div>
+                    <div class="command-desc">Desvincula tu cuenta y borra tus datos guardados de forma segura.</div>
+                </div>
+                <div class="command-item">
                     <div class="command-name">/np <span>[usuario]</span></div>
                     <div class="command-desc">Muestra la canción actual. Si mencionas a alguien, muestra su canción.</div>
                 </div>
                 <div class="command-item">
-                    <div class="command-name">/leaderboard</div>
-                    <div class="command-desc">Muestra el Top 10 de miembros del servidor con más scrobbles.</div>
-                </div>
-                <div class="command-item">
                     <div class="command-name">/linkcanal <span>&lt;canal&gt;</span></div>
                     <div class="command-desc">(Admins) Configura el canal para actualizaciones automáticas del ranking.</div>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">/sync</div>
+                    <div class="command-desc">(Admins) Actualiza el leaderboard manualmente al instante.</div>
                 </div>
             </div>
         </div>
@@ -130,12 +134,26 @@
         </div>
     </section>
 
+    <section id="contributors" class="contributors" style="background: #2b2d31; padding: 4rem 0; text-align: center;">
+        <div class="container">
+            <h2 class="section-title">Colaboradores</h2>
+            <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;">
+                <div style="background: #1e1f22; padding: 1.5rem; border-radius: 8px; text-align: center; width: 250px;">
+                    <img src="https://github.com/Svein05.png" alt="Svein05" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3 style="margin-bottom: 0.5rem;">Svein05</h3>
+                    <p style="color: #b9bbbe; font-size: 0.9rem; margin-bottom: 1rem;">Creador / Desarrollador</p>
+                    <a href="https://github.com/Svein05" target="_blank" style="color: #5865F2; text-decoration: none; font-size: 0.9rem;">Ver en GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="container footer-container">
             <div class="footer-info">
                 <div class="logo">
                     <span class="logo-icon">🎵</span>
-                    <span class="logo-text">Last.fm Bot</span>
+                    <span class="logo-text">Scrobbly</span>
                 </div>
                 <p>Llevando tu música a Discord.</p>
             </div>

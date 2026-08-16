@@ -18,15 +18,24 @@ class LastFM(commands.Cog):
         await interaction.response.defer(ephemeral=True)
         
         try:
+            # Seguridad: Verificar si la cuenta ya está vinculada por OTRA persona
+            is_linked = await DBManager.is_lastfm_linked(username, interaction.user.id)
+            if is_linked:
+                await interaction.followup.send("❌ Esa cuenta de Last.fm ya está vinculada a otro usuario de Discord. Si crees que es un error, contacta al soporte.", ephemeral=True)
+                return
+
             # Validamos que el usuario existe en Last.fm
             user_info = await self.client.get_user_info(username)
             if not user_info:
                 await interaction.followup.send("❌ No se encontró ese usuario en Last.fm.", ephemeral=True)
                 return
             
+            # Extraemos el nombre con las mayúsculas correctas
+            real_username = user_info.get('name', username)
+            
             # Guardamos en DB
-            await DBManager.set_user(interaction.user.id, username)
-            await interaction.followup.send(f"✅ ¡Cuenta vinculada exitosamente a **{username}**!", ephemeral=True)
+            await DBManager.set_user(interaction.user.id, real_username)
+            await interaction.followup.send(f"✅ ¡Cuenta vinculada exitosamente a **{real_username}**!", ephemeral=True)
             
         except LastFMError as e:
             await interaction.followup.send(f"❌ Error de Last.fm: {e}", ephemeral=True)
@@ -93,6 +102,16 @@ class LastFM(commands.Cog):
             await interaction.followup.send(f"❌ Error de Last.fm: {e}")
         except Exception as e:
             await interaction.followup.send(f"❌ Ocurrió un error inesperado.")
+
+    @app_commands.command(name="unlink", description="Desvincula tu cuenta de Last.fm del bot.")
+    async def unlink(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+        deleted = await DBManager.delete_user(interaction.user.id)
+        
+        if deleted:
+            await interaction.followup.send("✅ Tu cuenta de Last.fm ha sido desvinculada exitosamente. Tus datos han sido borrados de nuestra base de datos.", ephemeral=True)
+        else:
+            await interaction.followup.send("❌ No tenías ninguna cuenta vinculada previamente.", ephemeral=True)
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(LastFM(bot))

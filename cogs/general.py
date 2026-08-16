@@ -9,7 +9,7 @@ class General(commands.Cog):
     @app_commands.command(name="help", description="Muestra la lista de comandos disponibles.")
     async def help_command(self, interaction: discord.Interaction):
         embed = discord.Embed(
-            title="🎵 Ayuda de Last.fm Bot",
+            title="🎵 Ayuda de Scrobbly",
             description="Aquí tienes la lista de comandos disponibles para interactuar con tu música:",
             color=discord.Color.red() # Color temático de Last.fm
         )
