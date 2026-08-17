@@ -101,10 +101,11 @@ Una vez que el bot esté en tu servidor, puedes usar los siguientes comandos de 
 Este proyecto incluye una página web moderna para promocionar el bot, generada automáticamente vía **GitHub Pages**. 
 Puedes visitar la [página de demostración aquí](https://Svein05.github.io/Scrobbly/).
 
-## Contacto
+## Enlaces y Contacto
 
-- Únete a nuestro [Servidor de Soporte en Discord](#)
-- Repórtanos cualquier problema abriendo un [Issue](https://github.com/Svein05/Scrobbly/issues).
+- 🤖 [**Invita a Scrobbly a tu servidor**](https://discord.com/oauth2/authorize?client_id=1538633628706144306&permissions=8&integration_type=0&scope=bot)
+- 💬 [**Servidor de Soporte en Discord**](https://discord.gg/jsYZYqQC67)
+- 🐛 [**Reportar un problema**](https://github.com/Svein05/Scrobbly/issues)
 
 ---
 <p align="center">Hecho con ❤️ para la comunidad de Discord y Last.fm</p>
