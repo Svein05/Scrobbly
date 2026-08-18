@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comandos | Scrobbly Bot</title>
+    <meta name="description" content="Lista completa de comandos para Scrobbly, el bot de Last.fm para Discord.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <div class="container header-nav">
+            <div class="header-left">
+                <div class="logo-container">
+                    <img src="assets/logo.png" alt="Scrobbly Logo" onerror="this.src='https://ui-avatars.com/api/?name=Scrobbly&background=5865F2&color=fff'">
+                    <span>Scrobbly</span>
+                </div>
+                <nav class="nav-links">
+                    <a href="index.html">Inicio</a>
+                    <a href="commands.html" class="active">Comandos</a>
+                </nav>
+            </div>
+            <div class="header-right">
+                <a href="https://discord.gg/jsYZYqQC67" target="_blank" rel="noopener noreferrer" class="btn btn-danger btn-sm">Soporte</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="page-header fade-in">
+            <h1>Directorio de Comandos</h1>
+            <p>Encuentra todo lo que Scrobbly puede hacer.</p>
+        </section>
+
+        <!-- Search Bar -->
+        <div class="search-container fade-in" style="animation-delay: 0.1s;">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar comandos (ej: login, play, np)...">
+        </div>
+
+        <!-- Commands Grid -->
+        <div class="commands-grid fade-in" id="commandsGrid" style="animation-delay: 0.2s;">
+            
+            <!-- 
+            ========================================================================
+            PLANTILLA PARA AÑADIR COMANDOS A LA LISTA
+            ========================================================================
+            Copia y pega este bloque dentro del div "commands-grid" por cada comando.
+            
+            <div class="command-card" data-name="NOMBRE_COMANDO" data-desc="PALABRAS CLAVE PARA BUSCAR">
+                <div class="command-header">
+                    <span class="command-name">/NOMBRE_COMANDO</span>
+                    <div class="command-tags">
+                        <span class="tag tag-user">Usuario</span>
+                        <!-- Usa "tag-admin" para Admin o "tag-music" para Música -->
+                        <!--
+                    </div>
+                </div>
+                <p class="command-desc">DESCRIPCIÓN DE LO QUE HACE EL COMANDO.</p>
+                <div class="command-usage">
+                    Uso: <span>/NOMBRE_COMANDO [argumentos]</span>
+                </div>
+            </div>
+            ========================================================================
+            -->
+
+        </div>
+        
+        <!-- Empty State (Hidden by default) -->
+        <div id="noResults" class="hidden" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <div style="font-size: 3rem; margin-bottom: 16px;">🔍</div>
+            <h3>No se encontraron comandos</h3>
+            <p>Intenta usar otros términos de búsqueda.</p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom" style="margin-top: 0;">
+                &copy; 2026 Scrobbly Bot. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

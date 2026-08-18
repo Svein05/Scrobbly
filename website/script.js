@@ -1,90 +1,147 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
+    
+    // --- 1. Commands Page: Search Functionality ---
+    const searchInput = document.getElementById('searchInput');
+    const commandsGrid = document.getElementById('commandsGrid');
+    const noResults = document.getElementById('noResults');
+
+    if (searchInput && commandsGrid) {
+        const commandCards = Array.from(commandsGrid.getElementsByClassName('command-card'));
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            commandCards.forEach(card => {
+                const name = card.getAttribute('data-name') || "";
+                const desc = card.getAttribute('data-desc') || "";
+                
+                if (name.includes(term) || desc.includes(term)) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+                commandsGrid.classList.add('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                commandsGrid.classList.remove('hidden');
             }
         });
-    });
+    }
 
-    // Sistema de mockup dinámico
-    const mockupBody = document.querySelector('.mockup-body');
-    const mockupContainer = document.querySelector('.mockup');
+    // --- 2. Home Page: Fetch Live Stats ---
+    const statsContainer = document.getElementById('stats-container');
     
-    if (mockupBody && mockupContainer) {
-        const mockups = [
-            {
-                userCommand: '/np',
-                botHtml: `
-                    <div class="embed">
-                        <div class="embed-author">
-                            <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User">
-                            <span>User - Escuchando ahora</span>
-                        </div>
-                        <div class="embed-title">Bohemian Rhapsody</div>
-                        <div class="embed-desc">
-                            <strong>Queen</strong><br>
-                            <em>A Night At The Opera</em>
-                        </div>
-                        <div class="embed-footer">Total Scrobbles: 15,420</div>
-                    </div>
-                `
-            },
-            {
-                userCommand: '/link xSvein',
-                botHtml: `
-                    <div style="color: #dcddde; font-size: 14px;">✅ ¡Cuenta vinculada exitosamente a **xSvein**!</div>
-                `
-            },
-            {
-                userCommand: '/linkcanal #leaderboard',
-                botHtml: `
-                    <div style="color: #dcddde; font-size: 14px;">✅ El canal <span style="color: #c9cdfb; background: rgba(88, 101, 242, 0.3); padding: 2px 4px; border-radius: 3px;">#leaderboard</span> ha sido configurado. El Leaderboard se actualizará automáticamente allí.</div>
-                `
+    if (statsContainer) {
+        const elServers = document.getElementById('stat-servers');
+        const elUsers = document.getElementById('stat-users');
+
+        async function fetchBotStats() {
+            try {
+                // Obtenemos el archivo stats.json generado por el bot
+                const response = await fetch('stats.json');
+                
+                if (!response.ok) {
+                    throw new Error('No se encontró stats.json o hubo un error al cargar');
+                }
+                
+                const data = await response.json();
+
+                // Animamos los valores usando los datos reales
+                animateValue(elServers, 0, data.servers || 0, 1000);
+                animateValue(elUsers, 0, data.users || 0, 1000);
+
+            } catch (error) {
+                console.warn('Error con las stats (usando mock de respaldo):', error);
+                // Fallback de demostración si stats.json aún no se ha generado
+                animateValue(elServers, 0, 150, 1000);
+                animateValue(elUsers, 0, 3200, 1000);
             }
-        ];
-
-        let currentIndex = 0;
-        let isHovered = false;
-
-        mockupContainer.addEventListener('mouseenter', () => isHovered = true);
-        mockupContainer.addEventListener('mouseleave', () => isHovered = false);
-
-        function updateMockup() {
-            if (isHovered) return;
-
-            currentIndex = (currentIndex + 1) % mockups.length;
-            const currentMockup = mockups[currentIndex];
-            
-            mockupBody.style.opacity = '0';
-            
-            setTimeout(() => {
-                mockupBody.innerHTML = `
-                    <div class="message">
-                        <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Avatar" class="avatar">
-                        <div class="message-content">
-                            <span class="username">Usuario</span> <span class="timestamp">Hoy a las 14:30</span>
-                            <p>${currentMockup.userCommand}</p>
-                        </div>
-                    </div>
-                    <div class="message bot">
-                        <img src="https://ui-avatars.com/api/?name=Bot&background=d51007&color=fff" alt="Bot Avatar" class="avatar bot-avatar">
-                        <div class="message-content">
-                            <span class="username bot-name">Scrobbly <span class="bot-tag">BOT</span></span> <span class="timestamp">Hoy a las 14:30</span>
-                            ${currentMockup.botHtml}
-                        </div>
-                    </div>
-                `;
-                mockupBody.style.opacity = '1';
-            }, 300);
         }
 
-        mockupBody.style.transition = 'opacity 0.3s ease';
-        setInterval(updateMockup, 2500); // Cambia cada 2.5 segundos
+        fetchBotStats();
+    }
+
+    // --- Utility: Animate Number Counting ---
+    function animateValue(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const easeProgress = progress * (2 - progress); 
+            obj.innerHTML = Math.floor(easeProgress * (end - start) + start).toLocaleString();
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                obj.innerHTML = end.toLocaleString() + "+";
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+    
+    // --- 3. Scroll Animations (Intersection Observer) ---
+    const scrollElements = document.querySelectorAll('.fade-in-scroll');
+    
+    const elementInView = (el, dividend = 1) => {
+        const elementTop = el.getBoundingClientRect().top;
+        return (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend);
+    };
+
+    const displayScrollElement = (element) => {
+        element.classList.add('fade-in');
+        element.classList.remove('fade-in-scroll'); 
+    };
+
+    const handleScrollAnimation = () => {
+        scrollElements.forEach((el) => {
+            if (elementInView(el, 1.15)) {
+                displayScrollElement(el);
+            }
+        })
+    }
+
+    handleScrollAnimation();
+    window.addEventListener('scroll', () => {
+        handleScrollAnimation();
+    });
+
+    // --- 4. Fetch GitHub Contributors ---
+    const contributorsContainer = document.querySelector('.contributors');
+    if (contributorsContainer) {
+        async function fetchContributors() {
+            try {
+                // Llamada a la API de GitHub para obtener los contribuidores del repositorio
+                const response = await fetch('https://api.github.com/repos/Svein05/Scrobbly/contributors');
+                if (!response.ok) throw new Error('No se pudieron obtener los contribuidores');
+                
+                const contributors = await response.json();
+                
+                // Limpiar los placeholders
+                contributorsContainer.innerHTML = '';
+                
+                // Crear un elemento por cada contribuidor
+                contributors.forEach(user => {
+                    const div = document.createElement('div');
+                    div.className = 'contributor';
+                    div.innerHTML = `
+                        <a href="${user.html_url}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                            <img src="${user.avatar_url}" alt="${user.login}" title="${user.login}">
+                        </a>
+                        <span class="contributor-name">${user.login}</span>
+                    `;
+                    contributorsContainer.appendChild(div);
+                });
+            } catch (error) {
+                console.warn('No se pudieron cargar los contribuidores:', error);
+                // Si falla, dejamos el HTML por defecto o un mensaje
+            }
+        }
+        
+        fetchContributors();
     }
 });

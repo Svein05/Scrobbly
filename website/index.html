@@ -3,164 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrobbly - El Bot de Last.fm para Discord</title>
-    <meta name="description" content="El mejor bot de Discord para integrar tu actividad musical de Last.fm. Comparte tus scrobbles, descubre nueva música y compite en leaderboards.">
+    <title>Scrobbly | El mejor LastFM Discord Bot</title>
+    <meta name="description" content="Integra Last.fm en tu servidor de Discord con Scrobbly. Estadísticas, coronas, compatibilidad musical y mucho más.">
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <span class="logo-icon">🎵</span>
-                <span class="logo-text">Scrobbly</span>
+    <!-- Header Navigation -->
+    <header>
+        <div class="container header-nav">
+            <div class="header-left">
+                <nav class="nav-links">
+                    <a href="index.html" class="active">Inicio</a>
+                    <a href="commands.html">Comandos</a>
+                </nav>
             </div>
-            <ul class="nav-links">
-                <li><a href="#features">Características</a></li>
-                <li><a href="#commands">Comandos</a></li>
-                <li><a href="#contact">Contacto</a></li>
-                <li><a href="https://discord.com/oauth2/authorize?client_id=1538633628706144306&permissions=8&integration_type=0&scope=bot" class="btn btn-primary btn-small" target="_blank" rel="noopener noreferrer">Añadir al Servidor</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <header class="hero">
-        <div class="container hero-container">
-            <div class="hero-content">
-                <h1>Tu música,<br>ahora en <span class="highlight">Discord</span>.</h1>
-                <p>Integra perfectamente tu cuenta de Last.fm con tu servidor de Discord. Muestra lo que estás escuchando, compara scrobbles con tus amigos y crea leaderboards automáticamente.</p>
-                <div class="hero-buttons">
-                    <a href="https://discord.com/oauth2/authorize?client_id=1538633628706144306&permissions=8&integration_type=0&scope=bot" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Invitar Bot</a>
-                    <a href="#commands" class="btn btn-secondary">Ver Comandos</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="mockup">
-                    <div class="mockup-header">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    <div class="mockup-body">
-                        <div class="message">
-                            <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Avatar" class="avatar">
-                            <div class="message-content">
-                                <span class="username">Usuario</span> <span class="timestamp">Hoy a las 14:30</span>
-                                <p>/np</p>
-                            </div>
-                        </div>
-                        <div class="message bot">
-                            <img src="https://ui-avatars.com/api/?name=Bot&background=d51007&color=fff" alt="Bot Avatar" class="avatar bot-avatar">
-                            <div class="message-content">
-                                <span class="username bot-name">Scrobbly <span class="bot-tag">BOT</span></span> <span class="timestamp">Hoy a las 14:30</span>
-                                <div class="embed">
-                                    <div class="embed-author">
-                                        <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User">
-                                        <span>User - Escuchando ahora</span>
-                                    </div>
-                                    <div class="embed-title">Bohemian Rhapsody</div>
-                                    <div class="embed-desc">
-                                        <strong>Queen</strong><br>
-                                        <em>A Night At The Opera</em>
-                                    </div>
-                                    <div class="embed-footer">Total Scrobbles: 15,420</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="header-right">
+                <a href="https://discord.gg/jsYZYqQC67" target="_blank" rel="noopener noreferrer" class="btn btn-danger btn-sm">Soporte</a>
             </div>
         </div>
     </header>
 
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Características Principales</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🎧</div>
-                    <h3>Now Playing</h3>
-                    <p>Muestra al instante la canción que estás escuchando con carátula y detalles del álbum.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🏆</div>
-                    <h3>Leaderboards</h3>
-                    <p>Compite con los miembros de tu servidor. Descubre quién tiene más reproducciones.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Súper Rápido</h3>
-                    <p>Optimizado con llamadas asíncronas para responder a tus comandos sin demoras.</p>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero container fade-in">
+        <img src="assets/logo.png" alt="Scrobbly Bot Logo" class="hero-logo" onerror="this.src='https://ui-avatars.com/api/?name=Scrobbly&background=5865F2&color=fff&size=256'">
+        <h1>Scrobbly</h1>
+        <p class="hero-desc">
+            Este bot trae toda la experiencia de Last.fm directamente a Discord. Comparte lo que escuchas, compite en el leaderboard y descubre compatibilidad musical con tus amigos.
+        </p>
+        <div class="hero-actions">
+            <a href="https://discord.com/oauth2/authorize?client_id=1538633628706144306&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Invitar a Discord</a>
+            <a href="commands.html" class="btn btn-secondary">Ver Comandos</a>
+        </div>
+    </section>
+
+    <!-- Live Stats Section -->
+    <section class="stats-section container fade-in" style="animation-delay: 0.2s;">
+        <div class="stats-grid" id="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-value" id="stat-servers">--</div>
+                <div class="stat-label">Servidores</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value" id="stat-users">--</div>
+                <div class="stat-label">Usuarios</div>
             </div>
         </div>
     </section>
 
-    <section id="commands" class="commands">
+    <!-- Showcase Section -->
+    <section class="showcase-section">
         <div class="container">
-            <h2 class="section-title">Lista de Comandos</h2>
-            <div class="commands-list">
-                <div class="command-item">
-                    <div class="command-name">/link <span>&lt;username&gt;</span></div>
-                    <div class="command-desc">Vincula tu cuenta de Discord con Last.fm para empezar a usar el bot.</div>
+            <div class="section-header fade-in">
+                <h2>Lleva el control de tu música</h2>
+                <p>Descubre lo que Scrobbly puede hacer por tu comunidad</p>
+            </div>
+
+            <!-- 
+            ========================================================================
+            PLANTILLA PARA AÑADIR DEMOSTRACIONES DE COMANDOS (SHOWCASE)
+            ========================================================================
+            Copia y pega el bloque de abajo por cada comando que quieras mostrar aquí.
+            
+            <div class="showcase-item fade-in-scroll">
+                <div class="showcase-content">
+                    <span class="showcase-tag">ETIQUETA (ej: Now Playing)</span>
+                    <h3>TITULO DEL COMANDO</h3>
+                    <p>DESCRIPCIÓN DE LO QUE HACE EL COMANDO.</p>
                 </div>
-                <div class="command-item">
-                    <div class="command-name">/unlink</div>
-                    <div class="command-desc">Desvincula tu cuenta y borra tus datos guardados de forma segura.</div>
-                </div>
-                <div class="command-item">
-                    <div class="command-name">/np <span>[usuario]</span></div>
-                    <div class="command-desc">Muestra la canción actual. Si mencionas a alguien, muestra su canción.</div>
-                </div>
-                <div class="command-item">
-                    <div class="command-name">/linkcanal <span>&lt;canal&gt;</span></div>
-                    <div class="command-desc">(Admins) Configura el canal para actualizaciones automáticas del ranking.</div>
-                </div>
-                <div class="command-item">
-                    <div class="command-name">/sync</div>
-                    <div class="command-desc">(Admins) Actualiza el leaderboard manualmente al instante.</div>
+                <div class="showcase-image-wrapper">
+                    <img src="assets/NOMBRE_DE_TU_IMAGEN.png" alt="Descripción de la imagen">
                 </div>
             </div>
+            ========================================================================
+            -->
+
         </div>
     </section>
 
-    <section id="contact" class="cta">
-        <div class="container cta-container">
-            <h2>¿Necesitas Ayuda?</h2>
-            <p>Únete a nuestro servidor de soporte para resolver dudas, reportar bugs o sugerir nuevas funcionalidades.</p>
-            <a href="https://discord.gg/jsYZYqQC67" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Unirse al Soporte</a>
-        </div>
-    </section>
-
-    <section id="contributors" class="contributors" style="background: #2b2d31; padding: 4rem 0; text-align: center;">
-        <div class="container">
-            <h2 class="section-title">Colaboradores</h2>
-            <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;">
-                <div style="background: #1e1f22; padding: 1.5rem; border-radius: 8px; text-align: center; width: 250px;">
-                    <img src="https://github.com/Svein05.png" alt="Svein05" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
-                    <h3 style="margin-bottom: 0.5rem;">Svein05</h3>
-                    <p style="color: #b9bbbe; font-size: 0.9rem; margin-bottom: 1rem;">Creador / Desarrollador</p>
-                    <a href="https://github.com/Svein05" target="_blank" style="color: #5865F2; text-decoration: none; font-size: 0.9rem;">Ver en GitHub</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <!-- Footer -->
     <footer>
-        <div class="container footer-container">
-            <div class="footer-info">
-                <div class="logo">
-                    <span class="logo-icon">🎵</span>
-                    <span class="logo-text">Scrobbly</span>
+        <div class="container">
+            <h3>Colaboradores</h3>
+            <div class="contributors">
+                <!-- Example contributor, you can change this dynamically or statically -->
+                <div class="contributor">
+                    <img src="https://github.com/Svein05.png" alt="Svein05">
+                    <span class="contributor-name">Svein05</span>
                 </div>
-                <p>Llevando tu música a Discord.</p>
+                <div class="contributor">
+                    <img src="https://ui-avatars.com/api/?name=Colaborador&background=random" alt="Colaborador">
+                    <span class="contributor-name">Colaborador</span>
+                </div>
             </div>
-            <div class="footer-links">
-                <a href="https://github.com/Svein05/Scrobbly" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="#">Términos</a>
-                <a href="#">Privacidad</a>
+            <div class="footer-bottom">
+                &copy; 2026 Scrobbly Bot. Todos los derechos reservados. No afiliado con Last.fm.
             </div>
         </div>
     </footer>
