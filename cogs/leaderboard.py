@@ -206,7 +206,7 @@ class Leaderboard(commands.Cog):
                     canvas.alpha_composite(overlay, dest=(x, y))
                     
                     # Añadir emoji arriba a la izquierda
-                    pilmoji.text((x + 8, y + 8), emojis[idx], font=emoji_font)
+                    pilmoji.text((x + 6, y - 20), emojis[idx], font=emoji_font)
                     
             buffer = io.BytesIO()
             canvas.convert('RGB').save(buffer, format='PNG')
