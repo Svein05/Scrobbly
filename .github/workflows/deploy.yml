@@ -1,0 +1,20 @@
+name: Deploy to Debian Server
+
+on:
+  push:
+    branches:
+      - main # Solo se ejecuta cuando hay cambios en la rama main
+
+jobs:
+  deploy:
+    runs-on: self-hosted # Ejecuta los comandos directamente en tu laptop
+    
+    steps:
+    - name: Descargar cambios y reiniciar el bot
+      run: |
+        # Asumiendo que configuraste el runner dentro de la misma cuenta/carpeta
+        cd ~/Scrobbly
+        git pull origin main
+        source .venv/bin/activate
+        pip install -r requirements.txt
+        pm2 restart scrobbly
