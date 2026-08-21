@@ -13,7 +13,7 @@ jobs:
     - name: Descargar cambios y reiniciar el bot
       run: |
         # Asumiendo que configuraste el runner dentro de la misma cuenta/carpeta
-        cd ~/Scrobbly
+        cd ~/Github/Scrobbly
         git pull origin main
         source .venv/bin/activate
         pip install -r requirements.txt
