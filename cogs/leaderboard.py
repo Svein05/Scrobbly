@@ -159,8 +159,8 @@ class Leaderboard(commands.Cog):
             canvas = Image.new('RGBA', (WIDTH * cols, HEIGHT * rows), color='#202225')
             
             try:
-                font = ImageFont.truetype("arial.ttf", 14)
-                emoji_font = ImageFont.truetype("arial.ttf", 26)
+                font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14)
+                emoji_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 30)
             except IOError:
                 font = ImageFont.load_default()
                 emoji_font = ImageFont.load_default()
@@ -206,7 +206,7 @@ class Leaderboard(commands.Cog):
                     canvas.alpha_composite(overlay, dest=(x, y))
                     
                     # Añadir emoji arriba a la izquierda
-                    pilmoji.text((x + 6, y - 20), emojis[idx], font=emoji_font)
+                    pilmoji.text((x + 6, y - 13), emojis[idx], font=emoji_font)
                     
             buffer = io.BytesIO()
             canvas.convert('RGB').save(buffer, format='PNG')
