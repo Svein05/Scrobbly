@@ -1,9 +1,13 @@
+from pydantic import Field, AliasChoices
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     discord_token: str = "TU_DISCORD_TOKEN_AQUI"
     lastfm_api_key: str = "TU_LASTFM_API_KEY_AQUI"
-    lastfm_api_secret: str = "" # Requerido para Auth Web y Scrobbling firmado
+    lastfm_api_secret: str = Field(
+        default="", 
+        validation_alias=AliasChoices("lastfm_api_secret", "lastfm_shared_secret", "LASTFM_API_SECRET", "LASTFM_SHARED_SECRET")
+    ) # Soporta tanto LASTFM_API_SECRET como LASTFM_SHARED_SECRET
     
     # Configuración de Lavalink (Audio Node)
     lavalink_uri: str = "http://127.0.0.1:2333"
