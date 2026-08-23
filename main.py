@@ -27,7 +27,8 @@ class LastFMBot(commands.Bot):
         self.initial_extensions = [
             'cogs.general',
             'cogs.lastfm',
-            'cogs.leaderboard'
+            'cogs.leaderboard',
+            'cogs.music'
         ]
 
     async def setup_hook(self):
