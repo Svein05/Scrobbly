@@ -21,6 +21,52 @@ class DBManager:
             await db.commit()
 
     @staticmethod
+    async def set_user_session(discord_id: int, lastfm_username: str, session_key: str) -> None:
+        async with aiosqlite.connect(DB_PATH) as db:
+            await db.execute('''
+                INSERT INTO users (discord_id, lastfm_username, session_key, scrobble_enabled)
+                VALUES (?, ?, ?, 1)
+                ON CONFLICT(discord_id) DO UPDATE SET 
+                    lastfm_username = excluded.lastfm_username,
+                    session_key = excluded.session_key,
+                    scrobble_enabled = 1
+            ''', (discord_id, lastfm_username, session_key))
+            await db.commit()
+
+    @staticmethod
+    async def get_user_data(discord_id: int) -> Optional[dict]:
+        async with aiosqlite.connect(DB_PATH) as db:
+            db.row_factory = aiosqlite.Row
+            async with db.execute('SELECT discord_id, lastfm_username, session_key, scrobble_enabled FROM users WHERE discord_id = ?', (discord_id,)) as cursor:
+                row = await cursor.fetchone()
+                if row:
+                    return dict(row)
+                return None
+
+    @staticmethod
+    async def set_scrobble_enabled(discord_id: int, enabled: bool) -> None:
+        async with aiosqlite.connect(DB_PATH) as db:
+            await db.execute('UPDATE users SET scrobble_enabled = ? WHERE discord_id = ?', (1 if enabled else 0, discord_id))
+            await db.commit()
+
+    @staticmethod
+    async def get_active_scrobblers(discord_ids: list[int]) -> list[dict]:
+        if not discord_ids:
+            return []
+        placeholders = ','.join('?' for _ in discord_ids)
+        async with aiosqlite.connect(DB_PATH) as db:
+            db.row_factory = aiosqlite.Row
+            async with db.execute(f'''
+                SELECT discord_id, lastfm_username, session_key 
+                FROM users 
+                WHERE discord_id IN ({placeholders}) 
+                  AND session_key IS NOT NULL 
+                  AND scrobble_enabled = 1
+            ''', discord_ids) as cursor:
+                rows = await cursor.fetchall()
+                return [dict(r) for r in rows]
+
+    @staticmethod
     async def delete_user(discord_id: int) -> bool:
         async with aiosqlite.connect(DB_PATH) as db:
             cursor = await db.execute('DELETE FROM users WHERE discord_id = ?', (discord_id,))

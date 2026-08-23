@@ -11,6 +11,8 @@ async def init_db():
             CREATE TABLE IF NOT EXISTS users (
                 discord_id INTEGER PRIMARY KEY,
                 lastfm_username TEXT NOT NULL,
+                session_key TEXT,
+                scrobble_enabled INTEGER DEFAULT 1,
                 registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
@@ -24,10 +26,20 @@ async def init_db():
             )
         ''')
         
-        # Migración: Intentar añadir la columna si la tabla ya existía de antes
+        # Migraciones: Intentar añadir columnas si la tabla ya existía de antes
         try:
             await db.execute('ALTER TABLE guild_settings ADD COLUMN leaderboard_message_id INTEGER')
         except aiosqlite.OperationalError:
             pass # La columna ya existe
+            
+        try:
+            await db.execute('ALTER TABLE users ADD COLUMN session_key TEXT')
+        except aiosqlite.OperationalError:
+            pass
+            
+        try:
+            await db.execute('ALTER TABLE users ADD COLUMN scrobble_enabled INTEGER DEFAULT 1')
+        except aiosqlite.OperationalError:
+            pass
             
         await db.commit()
