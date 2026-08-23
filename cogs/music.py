@@ -300,6 +300,38 @@ class Music(commands.Cog):
         if not player.playing:
             await player.play(player.queue.get(), volume=100)
 
+    @play.autocomplete('busqueda')
+    async def play_autocomplete(self, interaction: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
+        """Ofrece sugerencias de canciones en tiempo real a medida que el usuario escribe."""
+        if not current or len(current.strip()) < 2:
+            return []
+
+        # Si el usuario pegó un enlace directo (URL), lo mostramos como opción rápida
+        if current.startswith(('http://', 'https://')):
+            return [app_commands.Choice(name=f"🔗 Enlace: {current[:80]}", value=current)]
+
+        try:
+            tracks: wavelink.Search = await wavelink.Playable.search(current)
+            if not tracks:
+                return []
+
+            choices = []
+            for track in tracks[:15]:  # Discord permite un máximo de 25 opciones
+                dur = format_duration(track.length) if track.length else ""
+                dur_str = f" ({dur})" if dur else ""
+                label = f"{track.title} - {track.author}{dur_str}"
+                
+                # Discord limita el nombre a 100 caracteres
+                if len(label) > 100:
+                    label = label[:97] + "..."
+
+                # Pasamos el URI de la pista para reproducir exactamente la seleccionada
+                choices.append(app_commands.Choice(name=label, value=track.uri or current))
+
+            return choices
+        except Exception:
+            return []
+
     @app_commands.command(name="pause", description="Pausa la reproducción actual.")
     async def pause(self, interaction: discord.Interaction):
         player: Optional[wavelink.Player] = interaction.guild.voice_client
